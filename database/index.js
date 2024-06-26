@@ -7,6 +7,7 @@ export const db = mysql2.createConnection({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   timezone: "+00:00",
+  connectTimeout: 20000,
 });
 
 db.connect((err) => {
