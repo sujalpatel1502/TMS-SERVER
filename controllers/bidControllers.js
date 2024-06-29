@@ -218,3 +218,50 @@ export const getAppliedBids = async (req, res) => {
       .json({ success: false, error: "Error getting Bid", status: "500" });
   }
 };
+
+export const getActiveBids = async (req, res) => {
+  try {
+    const data = await dbQueryAsync("SELECT * FROM bid WHERE status = ?", [
+      "Ongoing",
+    ]);
+    // console.log("dataaa", data);
+    if (data) {
+      res.status(200).json({
+        success: true,
+        msg: "Active bids fetched successfully",
+        data: data,
+        status: "200",
+      });
+    }
+  } catch (error) {
+    console.log("error in getting active bids", error);
+    res.status(500).json({
+      success: false,
+      error: "Error getting active Bids",
+      status: "500",
+    });
+  }
+};
+export const getCompleteBids = async (req, res) => {
+  try {
+    const data = await dbQueryAsync("SELECT * FROM bid WHERE status = ?", [
+      "expired",
+    ]);
+    // console.log("dataaa", data);
+    if (data) {
+      res.status(200).json({
+        success: true,
+        msg: "Complete bids fetched successfully",
+        data: data,
+        status: "200",
+      });
+    }
+  } catch (error) {
+    console.log("error in getting Complete bids", error);
+    res.status(500).json({
+      success: false,
+      error: "Error getting Complete Bids",
+      status: "500",
+    });
+  }
+};
