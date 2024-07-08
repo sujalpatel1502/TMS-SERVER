@@ -7,6 +7,7 @@ import {
   getAppliedBids,
   getActiveBids,
   getCompleteBids,
+  wonBid,
 } from "../controllers/bidControllers.js";
 
 const router = express.Router();
@@ -18,5 +19,6 @@ router.post("/applyBid", applyBid);
 router.get("/getAppliedBids/:id", getAppliedBids);
 router.get("/getActiveBids", getActiveBids);
 router.get("/getCompleteBids", getCompleteBids);
+router.post("/wonBid/:id", wonBid);
 
 export default router;

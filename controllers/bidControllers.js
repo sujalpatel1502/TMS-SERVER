@@ -144,6 +144,7 @@ export const applyBid = async (req, res) => {
 //   }
 // };
 export const getAppliedBids = async (req, res) => {
+  console.log("came-----");
   try {
     const data = await dbQueryAsync(
       `SELECT ab.*, b.*, 
@@ -263,5 +264,25 @@ export const getCompleteBids = async (req, res) => {
       error: "Error getting Complete Bids",
       status: "500",
     });
+  }
+};
+
+export const wonBid = async (req, res) => {
+  console.log("---", req.params.id, req.body.userId);
+  try {
+    const data = await dbQueryAsync("UPDATE bid SET bidwonid=? WHERE id=?", [
+      req.body.userId,
+      req.params.id,
+    ]);
+    res.status(200).json({
+      success: true,
+      msg: "Bid won inserted successfully",
+      status: "200",
+    });
+  } catch (error) {
+    console.error("Error adding won data", error);
+    res
+      .status(500)
+      .json({ success: false, error: "Error adding Bid", status: "500" });
   }
 };
