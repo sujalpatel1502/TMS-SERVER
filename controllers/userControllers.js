@@ -117,3 +117,75 @@ export const verifyOtp = async (req, res) => {
     });
   }
 };
+
+export const submitTruckData = async (req, res) => {
+  console.log("req------", req.body);
+  const {
+    aadharNumber,
+    driverName,
+    driverPhoneNumber,
+    engineNumber,
+    pucValidityDate,
+    truckNumber,
+    truckType,
+    bidId,
+  } = req.body;
+  try {
+    const result = await dbQueryAsync(
+      "INSERT INTO truckdata (drivername, drivercontact, trucknumber,enginenumber,pucdate,trucktype) VALUES (?, ?, ?,?,?,?)",
+      [
+        aadharNumber,
+        driverName,
+        driverPhoneNumber,
+        engineNumber,
+        pucValidityDate,
+        truckNumber,
+        truckType,
+      ]
+    );
+    const truckDataId = result.insertId;
+    console.log("====================================");
+    console.log(truckDataId);
+    console.log("====================================");
+    await dbQueryAsync("UPDATE bid SET truckdataid = ? WHERE id = ?", [
+      truckDataId,
+      bidId,
+    ]);
+    res.status(200).json({
+      success: true,
+      msg: "truck data inserted successfully",
+      status: "200",
+    });
+  } catch (error) {
+    console.error("Error adding truck data", error);
+    res.status(500).json({
+      success: false,
+      error: "Error adding truck data",
+      status: "500",
+    });
+  }
+};
+
+export const getTruckData = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const data = await dbQueryAsync("SELECT * FROM truckdata WHERE id=?", [id]);
+    console.log("dataaaa-----", data);
+    if (data) {
+      res.status(200).json({
+        success: true,
+        msg: "truck data fetched successfully",
+        data: data,
+        status: "200",
+      });
+    }
+  } catch (error) {
+    console.log("error in getting truckdata", error);
+    res.status(500).json({
+      success: false,
+      error: "Error getting truckdata",
+      status: "500",
+    });
+  }
+};
