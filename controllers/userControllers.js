@@ -132,14 +132,14 @@ export const submitTruckData = async (req, res) => {
   } = req.body;
   try {
     const result = await dbQueryAsync(
-      "INSERT INTO truckdata (drivername, drivercontact, trucknumber,enginenumber,pucdate,trucktype) VALUES (?, ?, ?,?,?,?)",
+      "INSERT INTO truckdata (drivername,aadharnumber, drivercontact, trucknumber,enginenumber,pucdate,trucktype) VALUES (?,?, ?, ?,?,?,?)",
       [
-        aadharNumber,
         driverName,
+        aadharNumber,
         driverPhoneNumber,
+        truckNumber,
         engineNumber,
         pucValidityDate,
-        truckNumber,
         truckType,
       ]
     );
