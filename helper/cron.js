@@ -55,6 +55,30 @@ const checkAndExpireBids = async () => {
   }
 };
 
+const checkAndUploadBids = async () => {
+  console.log(
+    "Running cron job to check and Upload bids at",
+    getLocalTimeFormatted()
+  );
+  const nowFormatted = getLocalTimeFormatted();
+
+  //   WHERE id IS NOT NULL AND status = 'active' AND DATE_ADD(startTime, INTERVAL duration MINUTE) <= ?
+  const query = `
+  UPDATE bid
+  SET status = 'Ongoing'
+  WHERE id IS NOT NULL AND status = 'Uploaded' AND bidstarttime <= ?
+`;
+
+  try {
+    // console.log("----", nowFormatted);
+    const results = await dbQueryAsync(query, [nowFormatted]);
+    console.log(`Uploaded ${results.affectedRows} bids`);
+  } catch (error) {
+    console.error("Error updating bids:", error);
+  }
+};
+
 cron.schedule("* * * * *", checkAndExpireBids);
+cron.schedule("* * * * *", checkAndUploadBids);
 
 export default checkAndExpireBids;

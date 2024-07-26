@@ -18,7 +18,7 @@ export const addBid = async (req, res) => {
 
   try {
     await dbQueryAsync(
-      "INSERT INTO bid (origin, destination, bidtype, reportTime, vendorName, weight, vehicletype, vehiclecount, bidstarttime, bidendtime, comments, status, origincord, destinationcord,vendorid) VALUES (?, ?, ?, NOW(), 'Sujal', ?, ?, ?, ?, ?, ?, 'Ongoing', ?, ?,?)",
+      "INSERT INTO bid (origin, destination, bidtype, reportTime, vendorName, weight, vehicletype, vehiclecount, bidstarttime, bidendtime, comments, status, origincord, destinationcord,vendorid) VALUES (?, ?, ?, NOW(), 'Sujal', ?, ?, ?, ?, ?, ?, 'Uploaded', ?, ?,?)",
       [
         origin,
         destination,

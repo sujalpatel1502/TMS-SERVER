@@ -1,11 +1,135 @@
 import razorpay from "razorpay";
 import { db } from "../database/index.js";
 import { dbQueryAsync } from "../helper/index.js";
+import axios from "axios";
 
 const instance = new razorpay({
   key_id: "rzp_test_Lq5js1CABxRRU2",
   key_secret: "SNbAVBQRBZ0a99pCwcjBgBMK",
 });
+
+// export const createFundAccountUser = async (req, res) => {
+//   const { accountNumber, ifsc, name, contact } = req.body;
+//   console.log("Request body:", req.body);
+//   const key_id = "rzp_test_Lq5js1CABxRRU2";
+//   const key_secret = "SNbAVBQRBZ0a99pCwcjBgBMK";
+//   const auth = Buffer.from(`${key_id}:${key_secret}`).toString("base64");
+
+//   const contactData = {
+//     name,
+//     contact,
+//   };
+
+//   try {
+//     console.log("calleddddddd");
+//     const response = await axios.post(
+//       "https://api.razorpay.com/v1/contacts",
+//       contactData,
+//       {
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Basic ${auth}`,
+//         },
+//       }
+//     );
+
+//     console.log("Contact created:", response.data);
+
+//     const fundAccountResponse = await instance.fundAccount.create({
+//       contact_id: response.data.id,
+//       account_type: "bank_account",
+//       bank_account: {
+//         name: name,
+//         ifsc: ifsc,
+//         account_number: accountNumber,
+//       },
+//     });
+//     // fa_OaQK8scACXxuGu
+//     console.log("Fund account created:", fundAccountResponse);
+
+//     res.status(200).json({
+//       success: true,
+//       fund_account_id: fundAccountResponse.id,
+//     });
+//   } catch (error) {
+//     console.error("Error creating fund account:", error);
+
+//     res.status(500).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// };
+
+// export const createUserpayout = async (req, res) => {
+//   const { amount, currency, vendorId, mode, purpose } = req.body;
+//   console.log("------------");
+
+//   // try {
+//   //   // Fetch vendor's fund account ID from your database
+//   //   // const fundAccountId = await getVendorFundAccountId(vendorId);
+
+//   //   const payout = await instance.payouts.create({
+//   //     account_number: "7878780080316316", // Your Razorpay account number
+//   //     fund_account_id: "fa_OaQK8scACXxuGu",
+//   //     amount: 500 * 100, // Amount in smallest currency unit (e.g., paise)
+//   //     currency: "INR",
+//   //     mode: "IMPS",
+//   //     purpose: "payout",
+//   //     queue_if_low_balance: true,
+//   //   });
+
+//   //   res.status(200).json({
+//   //     success: true,
+//   //     payout_id: payout.id,
+//   //   });
+//   // } catch (error) {
+//   //   res.status(500).json({
+//   //     success: false,
+//   //     message: error.message,
+//   //   });
+//   // }
+
+//   const key_id = "rzp_test_Lq5js1CABxRRU2";
+//   const key_secret = "SNbAVBQRBZ0a99pCwcjBgBMK";
+//   const auth = Buffer.from(`${key_id}:${key_secret}`).toString("base64");
+
+//   const payoutData = {
+//     account_number: "7878780080316316",
+//     fund_account_id: "fa_00000000000001",
+//     amount: 1000000,
+//     currency: "INR",
+//     mode: "IMPS",
+//     purpose: "refund",
+//     queue_if_low_balance: true,
+//     reference_id: "Acme Transaction ID 12345",
+//     narration: "Acme Corp Fund Transfer",
+//     notes: {
+//       notes_key_1: "Tea, Earl Grey, Hot",
+//       notes_key_2: "Tea, Earl Grey… decaf.",
+//     },
+//   };
+
+//   try {
+//     const response = await axios.post(
+//       "https://api.razorpay.com/v1/payouts",
+//       payoutData,
+//       {
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Basic ${auth}`,
+//         },
+//       }
+//     );
+
+//     console.log("Payout created:", response.data);
+//   } catch (error) {
+//     console.error(
+//       "Error creating payout:",
+//       error.response ? error.response.data : error.message
+//     );
+//   }
+// };
 
 export const bidPurchase = async (req, res) => {
   const userId = req.params.userid;

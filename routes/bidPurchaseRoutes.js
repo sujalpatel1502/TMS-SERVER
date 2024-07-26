@@ -15,6 +15,8 @@ router.post("/bidsPay", bidsPay);
 router.post("/adminWalletPurchase/:adminid", adminWalletPurchase);
 router.post("/adminWalletPay", adminWalletPay);
 router.get("/adminWalletBalance/:id", adminWalletBalance);
+// router.post("/createFundUser", createFundAccountUser);
+// router.post("/createUserPayout", createUserpayout);
 router.get("/adminTransactionHistory/:id", adminTransactionHistory);
 
 export default router;
